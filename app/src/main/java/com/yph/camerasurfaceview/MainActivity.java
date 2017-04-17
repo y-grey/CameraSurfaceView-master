@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
-
-
 public class MainActivity extends AppCompatActivity {
     private CameraSurfaceView cameraSurfaceView;
 
@@ -21,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         CheckPermissionsUtil checkPermissionsUtil = new CheckPermissionsUtil(this);
         checkPermissionsUtil.requestAllPermission(this);
 
-        cameraSurfaceView = (CameraSurfaceView) findViewById(R.id.mediaSurfaceView);
+        cameraSurfaceView = (CameraSurfaceView) findViewById(R.id.cameraSurfaceView);
         cameraSurfaceView.openCamera();
         findViewById(R.id.capture).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,11 +32,11 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(final CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     cameraSurfaceView.startRecord();
-                    //设置录制最大时长
-//                    mediaSurfaceView.startRecord(10000, new MediaRecorder.OnInfoListener() {
+                    //设置录制时长为10秒视频
+//                    cameraSurfaceView.startRecord(10000, new MediaRecorder.OnInfoListener() {
 //                        @Override
 //                        public void onInfo(MediaRecorder mr, int what, int extra) {
-//                            mediaSurfaceView.stopRecord();
+//                            cameraSurfaceView.stopRecord();
 //                            buttonView.setChecked(false);
 //                        }
 //                    });

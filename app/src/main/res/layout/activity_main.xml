@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <com.yph.camerasurfaceview.CameraSurfaceView
-        android:id="@+id/mediaSurfaceView"
+        android:id="@+id/cameraSurfaceView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
