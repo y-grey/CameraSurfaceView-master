@@ -11,8 +11,8 @@
 ## 使用方法
 
 ```
-## 布局文件中添加
-```
+布局文件中添加
+
 <com.yph.camerasurfaceview.CameraSurfaceView
     android:id="@+id/mediaSurfaceView"
     android:layout_width="match_parent"
