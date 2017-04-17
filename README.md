@@ -1,6 +1,6 @@
 # CameraSurfaceView
 ## 控件介绍
-主要的功能有：拍照，录像，定时长录像 ,前后摄像头的切换，并且在后台完成以上所有操作
+主要的功能有：拍照，录像，闪光灯，定时长录像 ,前后摄像头的切换，自适应横竖屏的切换，并且支持在后台完成以上所有操作
 
 
 ## 示例截图
@@ -33,6 +33,8 @@
                 cameraSurfaceView.stopRecord();
             }
         });
+
+  闪光灯：cameraSurfaceView.switchLight(boolean open);
 
   前后摄像头的切换：cameraSurfaceView.setDefaultCamera(boolean backCamera);
 
