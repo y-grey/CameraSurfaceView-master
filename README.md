@@ -11,10 +11,15 @@
 ## 使用方法
 
 ```
-布局文件中添加
+1.赋予程序必要的权限；
+
+2.布局文件中添加
 
 <com.yph.camerasurfaceview.CameraSurfaceView
     android:id="@+id/mediaSurfaceView"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
+
+或者 new CameraSurfaceView()，然后调用openCamera()即可。
+
 ```
