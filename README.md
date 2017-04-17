@@ -1,6 +1,6 @@
 # CameraSurfaceView
 ## 控件介绍
-主要的功能有：拍照，录像，定时长录制 ,前后摄像头的切换，并且在后台完成以上所有操作
+主要的功能有：拍照，录像，定时长录像 ,前后摄像头的切换，并且在后台完成以上所有操作
 
 
 ## 示例截图
@@ -16,10 +16,26 @@
 2.布局文件中添加
 
 <com.yph.camerasurfaceview.CameraSurfaceView
-    android:id="@+id/mediaSurfaceView"
+    android:id="@+id/cameraSurfaceView"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
 
 或者 new CameraSurfaceView()，然后调用openCamera()即可。
+
+3.拍照：cameraSurfaceView.capture();
+
+  录像：cameraSurfaceView.startRecord();//开始录制
+        cameraSurfaceView.stopRecord(); //结束录制
+        //设置录制时长为10秒视频
+        cameraSurfaceView.startRecord(10000, new MediaRecorder.OnInfoListener() {
+            @Override
+            public void onInfo(MediaRecorder mr, int what, int extra) {
+                cameraSurfaceView.stopRecord();
+            }
+        });
+
+  前后摄像头的切换：cameraSurfaceView.setDefaultCamera(boolean backCamera);
+
+  前后台切换：cameraSurfaceView.setRunBack(boolean b)
 
 ```
