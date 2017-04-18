@@ -54,24 +54,21 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     private void init(Context context) {
         this.context = context;
-        setOnClickListener(this);
-        mSurfaceHolder = getHolder();
-        mSurfaceHolder.addCallback(this);
-        mSurfaceTexture = new SurfaceTexture(10);
-    }
-
-    public void openCamera() {
-        if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            screenOritation = Configuration.ORIENTATION_LANDSCAPE;
-        }
         cameraState = CameraState.START;
         if (cameraStateListener != null) {
             cameraStateListener.onCameraStateChange(cameraState);
         }
-        initCamera();
+        if(!openCamera())return;
+        if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            screenOritation = Configuration.ORIENTATION_LANDSCAPE;
+        }
+        mSurfaceHolder = getHolder();
+        mSurfaceHolder.addCallback(this);
+        mSurfaceTexture = new SurfaceTexture(10);
+        setOnClickListener(this);
     }
 
-    private void initCamera() {
+    private boolean openCamera() {
         if (mOpenBackCamera) {
             mCameraId = findCamera(false);
         } else {
@@ -91,8 +88,9 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
         if (mCamera == null) {
             Toast.makeText(context, "打开摄像头失败", Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
+        return true;
     }
 
     private int findCamera(boolean front) {
@@ -122,7 +120,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         mOpenBackCamera = backCamera;
         if (mCamera != null) {
             closeCamera();
-            initCamera();
+            openCamera();
             startPreview();
         }
         return true;
