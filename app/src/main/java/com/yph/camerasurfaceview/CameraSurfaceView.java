@@ -218,10 +218,10 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
             if (mRunInBackground) {
                 mCamera.setPreviewTexture(mSurfaceTexture);
                 mCamera.addCallbackBuffer(previewBuffer);
-                mCamera.setPreviewCallbackWithBuffer(previewCallback);
+//                mCamera.setPreviewCallbackWithBuffer(previewCallback);//设置摄像头预览帧回调
             } else {
                 mCamera.setPreviewDisplay(mSurfaceHolder);
-                mCamera.setPreviewCallback(previewCallback);
+//                mCamera.setPreviewCallback(previewCallback);//设置摄像头预览帧回调
             }
             mCamera.setParameters(mParam);
             mCamera.startPreview();
@@ -342,10 +342,6 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
             setVisibility(View.GONE);
         else
             setVisibility(View.VISIBLE);
-        if (autoOpenCamera) {
-            stopPreview();
-            startPreview();
-        }
     }
 
     /**
