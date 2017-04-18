@@ -29,8 +29,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private boolean mOpenBackCamera = true;
     private SurfaceHolder mSurfaceHolder;
     private SurfaceTexture mSurfaceTexture;
-    private boolean mRunInBackground;
-    private boolean enableRunInBackground = true;
+    private boolean mRunInBackground = false;
     public Camera mCamera;
     private Camera.Parameters mParam;
     private byte[] previewBuffer;
@@ -62,7 +61,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
     }
 
     public void openCamera() {
-        if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             screenOritation = Configuration.ORIENTATION_LANDSCAPE;
         }
         cameraState = CameraState.START;
@@ -271,25 +270,11 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
     }
 
-    private boolean autoOpenCamera = true;
-
-    public void autoOpenCamera(boolean auto) {
-        this.autoOpenCamera = auto;
-    }
-
-    public void startCameraPreview() {
-        stopPreview();
-        startPreview();
-    }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        if (enableRunInBackground) {
-            mRunInBackground = false;
-        }
-        if (autoOpenCamera) {
-            startCameraPreview();
-        }
+        stopPreview();
+        startPreview();
     }
 
     @Override
@@ -298,13 +283,9 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        if (enableRunInBackground) {
-            mRunInBackground = true;
-        }
-        if (autoOpenCamera) {
-            stopPreview();
+        stopPreview();
+        if (mRunInBackground)
             startPreview();
-        }
     }
 
     protected CameraState cameraState;
@@ -335,9 +316,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
     public void setRunBack(boolean b) {
         if (mCamera == null) return;
         if (b == mRunInBackground) return;
-        if (enableRunInBackground) {
-            mRunInBackground = b;
-        }
+        mRunInBackground = b;
         if (b)
             setVisibility(View.GONE);
         else
