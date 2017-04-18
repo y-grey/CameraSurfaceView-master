@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
         checkPermissionsUtil.requestAllPermission(this);
 
         cameraSurfaceView = (CameraSurfaceView) findViewById(R.id.cameraSurfaceView);
-        cameraSurfaceView.openCamera();
         findViewById(R.id.capture).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
