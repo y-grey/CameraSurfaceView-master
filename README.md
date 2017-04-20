@@ -20,7 +20,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
 
-或者 new CameraSurfaceView()，然后调用openCamera()即可。
+或者 new CameraSurfaceView(context),即可。
 
 3.拍照：cameraSurfaceView.capture();
 
@@ -39,5 +39,12 @@
   前后摄像头的切换：cameraSurfaceView.setDefaultCamera(boolean backCamera);
 
   前后台切换：cameraSurfaceView.setRunBack(boolean b)
+
+4.释放Camera:
+  @Override
+  protected void onDestroy() {
+      super.onDestroy();
+      cameraSurfaceView.closeCamera();
+  }
 
 ```
