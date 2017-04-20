@@ -30,7 +30,8 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private SurfaceHolder mSurfaceHolder;
     private SurfaceTexture mSurfaceTexture;
     private boolean mRunInBackground = false;
-    public Camera mCamera;
+    boolean isAttachedWindow = false;
+    private Camera mCamera;
     private Camera.Parameters mParam;
     private byte[] previewBuffer;
     private int mCameraId;
@@ -58,7 +59,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         if (cameraStateListener != null) {
             cameraStateListener.onCameraStateChange(cameraState);
         }
-        if(!openCamera())return;
+        openCamera();
         if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             screenOritation = Configuration.ORIENTATION_LANDSCAPE;
         }
@@ -66,9 +67,24 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         mSurfaceHolder.addCallback(this);
         mSurfaceTexture = new SurfaceTexture(10);
         setOnClickListener(this);
+        post(new Runnable() {
+            @Override
+            public void run() {
+                if(!isAttachedWindow){
+                    mRunInBackground = true;
+                    startPreview();
+                }
+            }
+        });
     }
 
-    private boolean openCamera() {
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        isAttachedWindow = true;
+    }
+
+    private void openCamera() {
         if (mOpenBackCamera) {
             mCameraId = findCamera(false);
         } else {
@@ -88,9 +104,8 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
         if (mCamera == null) {
             Toast.makeText(context, "打开摄像头失败", Toast.LENGTH_SHORT).show();
-            return false;
+            return;
         }
-        return true;
     }
 
     private int findCamera(boolean front) {
@@ -268,7 +283,6 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
     }
 
-
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         stopPreview();
@@ -301,19 +315,16 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         void onCameraStateChange(CameraState paramCameraState);
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        closeCamera();
-        mediaRecorder.release();
-        super.onDetachedFromWindow();
-    }
-
     /**
      * ___________________________________前/后台运行______________________________________
      **/
     public void setRunBack(boolean b) {
         if (mCamera == null) return;
         if (b == mRunInBackground) return;
+        if(!b && !isAttachedWindow){
+            Toast.makeText(context, "Vew未依附在Window,无法显示", Toast.LENGTH_SHORT).show();
+            return;
+        }
         mRunInBackground = b;
         if (b)
             setVisibility(View.GONE);
